@@ -3,8 +3,11 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using LogicaNegocio;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Web.Filters;
 using Web.Models;
 
 namespace Web.Controllers
@@ -19,6 +22,21 @@ namespace Web.Controllers
         }
 
         public IActionResult Index()
+        {
+            if (HttpContext.Session.GetString("User") == null)
+                return RedirectToAction("Login");
+            else
+                return View();
+        }
+
+        public IActionResult Login()
+        {
+            return View();
+        }
+
+        [PermisoAttribute(Permiso = EnumRolesPermiso.Registrar_usuario)]
+
+        public IActionResult Registrar()
         {
             return View();
         }

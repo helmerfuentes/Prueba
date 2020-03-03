@@ -9,7 +9,7 @@ namespace Dato
     public class DatoRol : Conexion
     {
 
-
+        DatoModulos DatoModulos;
 
         public Rol Agregar(Rol rol)
         {
@@ -43,6 +43,14 @@ namespace Dato
 
         }
 
+        public bool BuscarPermiso(string rol, int permiso)
+        {
+            if (rol == "Admnistrador")
+                return true;
+            else
+                return false;
+        }
+
         public Rol Obtener(long id)
         {
             Rol rol = null;
@@ -59,10 +67,12 @@ namespace Dato
                         dr.Read();
                         if (dr.HasRows)
                         {
+                            DatoModulos = new DatoModulos();
                             rol.Id = Convert.ToInt32(dr["id"]);
                             rol.Nombre = dr["Nombre"].ToString();
                             rol.Estado = (RolEstado)Convert.ToInt32(dr["estado"]);
-
+                            rol.ListaModulos = DatoModulos.BuscarModuloPorRol(rol.Id);
+                           
                         }
 
                     }
@@ -83,6 +93,8 @@ namespace Dato
                 desConectar();
             }
         }
+
+
 
         public bool Eliminar(long id)
         {

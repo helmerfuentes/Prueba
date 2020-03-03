@@ -16,6 +16,11 @@ namespace LogicaNegocio
             return DatoUsuario.Listar();
         }
 
+        public Usuario Ingresar(string user, string clave)
+        {
+            return DatoUsuario.Login(user,clave);
+        }
+
         public Usuario Buscar(long id)
         {
             return DatoUsuario.Buscarusuario(id);

@@ -4,18 +4,23 @@ using System.Text;
 
 namespace Entidades
 {
-   public class Opciones
+   public class Opcion
     {
         public long Id { get; set; }
         public string  Nombre { get; set; }
         public string Descripcion { get; set; }
-
-        public Modulos modulo { get; set; }
-        public Opciones()
+        public OpcionEnum Estado{ get; set; }
+        public Modulo modulo { get; set; }
+        public Opcion()
         {
-            modulo = new Modulos();
+            modulo = new Modulo();
         }
 
 
+    }
+    public enum OpcionEnum
+    {
+        Inactivo = 0,
+        Activo = 1
     }
 }

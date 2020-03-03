@@ -34,5 +34,15 @@ namespace LogicaNegocio
         {
             return DatoRol.Obtener(id);
         }
+        public  bool TienePermiso(string rol, EnumRolesPermiso permiso)
+        {
+            return DatoRol.BuscarPermiso(rol,Convert.ToInt32(permiso));
+        }
     }
+
+    public enum EnumRolesPermiso
+    {
+            Registrar_usuario=0
+
+      }
 }
