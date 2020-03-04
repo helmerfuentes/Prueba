@@ -1,0 +1,13 @@
+﻿#viewDiv {
+    margin: 0;
+    padding: 0;
+    height: 700px;
+    margin-bottom: 50px;
+}
+
+#btnDeptg {
+    position: absolute;
+    z-index: 100;
+    top: 20px;
+    right: 20px;
+}

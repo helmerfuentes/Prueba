@@ -2,8 +2,8 @@
     ViewData["Title"] = "Home Page";
     Layout = "_LayoutDinamico";
 }
+<h1>Departamentos de Colombia</h1>
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<button id="infoDiv" onclick="recargarTabla(0, 10, 1)" class="esri-widget">Ver usuarios</button>
+<button id="verVeredasBtn" onclick="verificarVer()" class="esri-widget">Ver veredas</button>
+<div id="viewDiv"></div>

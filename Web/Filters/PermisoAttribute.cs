@@ -16,7 +16,7 @@ namespace Web.Filters
         
 
         public EnumRolesPermiso Permiso { get; set; }
-        LogicaRol LogicaRol = new LogicaRol();
+             LogicaRol LogicaRol = new LogicaRol();
        private  string rol;
        
       

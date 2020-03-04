@@ -7,6 +7,8 @@
     <title>@ViewData["Title"] - Devolutions</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="https://js.arcgis.com/4.14/esri/themes/light/main.css">
+    <link rel="stylesheet" href="~/css/Style.css"/>
 </head>
 <body>
     <header>
@@ -27,7 +29,7 @@
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Login">Salir</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Registrar">Registrar</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Rol" >Rol</a>
                             </li>
                         }
 
@@ -59,6 +61,7 @@
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://js.arcgis.com/4.14/"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @RenderSection("Scripts", required: false)
 </body>

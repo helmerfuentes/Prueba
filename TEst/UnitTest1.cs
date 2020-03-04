@@ -50,7 +50,7 @@ namespace TEst
             DatoUsuario datoUsuario = new DatoUsuario();
             DatoRol datoRol = new DatoRol();
             LogicaUsuario logicaUsuario = new LogicaUsuario();
-            Assert.IsNotNull(logicaUsuario.Ingresar("helmerfa", "123456"));
+            Assert.IsTrue(Drol.BuscarPermiso("dsdsdd", 1));
         }
     }
 }

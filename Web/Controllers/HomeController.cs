@@ -34,7 +34,7 @@ namespace Web.Controllers
             return View();
         }
 
-        [PermisoAttribute(Permiso = EnumRolesPermiso.Registrar_usuario)]
+        //[PermisoAttribute(Permiso = EnumRolesPermiso.Registrar_Rol)]
 
         public IActionResult Registrar()
         {

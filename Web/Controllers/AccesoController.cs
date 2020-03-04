@@ -20,13 +20,14 @@ namespace Web.Controllers
 
         public IActionResult Login(string user, string pass)
         {
-            var usuario = logica.Ingresar(user, pass);
+         
+             var usuario= logica.Ingresar(user, pass);
             if (usuario!= null)
             {
                 HttpContext.Session.SetString("User", usuario.Rol.Nombre);
                 return RedirectToAction("Index","Home");       
             }
-            return View("Login");
+            return RedirectToAction("Login","Home");
         }
 
         [HttpPost]

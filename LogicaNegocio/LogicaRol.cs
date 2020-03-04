@@ -12,7 +12,7 @@ namespace LogicaNegocio
 
         public Rol Agregar(Rol rol)
         {
-            return null;/* DatoRol.Agregar(rol)*/
+            return rol;// DatoRol.Agregar(rol);
         }
 
         public List<Rol> Listar()
@@ -42,7 +42,18 @@ namespace LogicaNegocio
 
     public enum EnumRolesPermiso
     {
-            Registrar_usuario=0
+        #region Rol
+        Registrar_Rol = 1,
+        Listar_Rol=2,
+        Actualizar_Rol=5,
+        Eliminar_rol=4,
+            #endregion
 
-      }
+        //#region Alumnos
+        //Alumno_Puede_Crear_Nuevo_Registro = 2,
+        //Alumno_Puede_Eliminar_Registro = 3,
+        //Alumno_Puede_Visualizar_Un_Alumno = 4,
+        //#endregion
+
+    }
 }

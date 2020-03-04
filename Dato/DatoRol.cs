@@ -45,10 +45,44 @@ namespace Dato
 
         public bool BuscarPermiso(string rol, int permiso)
         {
-            if (rol == "Admnistrador")
-                return true;
-            else
+            try
+            {
+                Sql = @"SELECT    COUNT(*)  as resultado  
+                        FROM      dbo.rol INNER JOIN
+                        dbo.[rol-opciones] ON dbo.rol.id = dbo.[rol-opciones].idRol
+                        where rol.nombre=@rol and [rol-opciones].idOpcion=@permiso";
+                if (conectar(Sql))
+                {
+                    cmd.Parameters.AddWithValue("@rol", rol);
+                    cmd.Parameters.AddWithValue("@permiso", permiso);
+
+                    using (var dr = cmd.ExecuteReader())
+                    {
+                       
+                        dr.Read();
+                        if (dr.HasRows)
+                           return Convert.ToBoolean((dr["resultado"]));
+                           
+
+                        
+
+                    }
+
+
+                 
+                }
                 return false;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("error mensaje " + e.Message);
+                return false;
+
+            }
+            finally
+            {
+                desConectar();
+            }
         }
 
         public Rol Obtener(long id)
