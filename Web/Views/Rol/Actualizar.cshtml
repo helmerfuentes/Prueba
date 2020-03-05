@@ -8,7 +8,11 @@
 
 <h4>Movie</h4>
 <hr />
+<div class="danger">
+    @ViewBag.Error
+</div>
 <div class="row">
+    
     <div class="col-md-4">
         <form asp-action="Actualizar">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -29,7 +33,7 @@
                 <span asp-validation-for="Estado" class="text-danger"></span>
             </div>
 
-           <div class="form-group">
+            <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </form>
@@ -37,7 +41,7 @@
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Listar">Regresar Lista</a>
 </div>
 
 @section Scripts {

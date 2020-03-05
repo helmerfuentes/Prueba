@@ -60,25 +60,49 @@ namespace Web.Controllers
         public ActionResult Actualizar(Rol rol)
         {
             if (ModelState.IsValid)
-            {
-                  LogicaRol.Actualizar(rol);
+                if (LogicaRol.Actualizar(rol) == null)
+                {
+                    ViewBag.Error = "Error al Actualizar";
+                    return View();
+                }
 
-            }
-            else
-            {
 
-            }
-            return View(rol);
+            return RedirectToAction("Listado");
         }
         public ActionResult Permiso(long id)
         {
             return View(permisos.ObtenerListaPermisos(id));
         }
        
+        public ActionResult Eliminar(long id)
+        {
+            if (LogicaRol.Eliminar(id))
+            {
+                //redirecciono
+            }
+            else
+            {
+                //mensaje en caso de error
+            }
+
+            return RedirectToAction("Listado");
+        }
 
         public ActionResult Denegar(long rol, long opcion)
         {
             if (permisos.Denegar(rol, opcion))
+            {
+               
+            }
+            else
+            {
+                //mostrar mensaje en caso de error
+            }
+            return RedirectToAction("Permiso", new { id = rol });
+        }
+        public ActionResult Permitir(long rol, long opcion)
+        {
+            if (permisos.Permitir(rol, opcion))
             {
 
             }
@@ -86,12 +110,9 @@ namespace Web.Controllers
             {
 
             }
-            return RedirectToAction("Actualizar", new { id = rol });
-        }
-        public ActionResult Permitir(long id)
-        {
+
             Console.WriteLine();
-            return View();
+            return RedirectToAction("Permiso", new { id = rol });
         }
 
 

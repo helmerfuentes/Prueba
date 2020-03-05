@@ -1,6 +1,7 @@
 ﻿using Entidades;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Text;
 
 namespace Dato
@@ -63,7 +64,37 @@ namespace Dato
                 desConectar();
             }
         }
-        
+
+        public bool Permitir(long rol, long opcion)
+        {
+            try
+            {
+                Sql = "INSERT INTO [ROL-OPCIONES](idRol,idOpcion) VALUES(@rol,@opcion) SELECT @@IDENTITY AS Id ;";
+                if (conectar(Sql))
+                {
+                    cmd.Parameters.AddWithValue("@rol", rol);
+                    cmd.Parameters.AddWithValue("@opcion", opcion);
+                   
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    reader.Read();
+
+                    return true;
+                }
+                return false;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("error mensaje " + e.Message);
+                return false;
+
+            }
+            finally
+            {
+                desConectar();
+            }
+
+        }
+
         public bool Denegar(long idrol, long idOpcion)
         {
             try

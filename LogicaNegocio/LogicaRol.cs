@@ -23,11 +23,15 @@ namespace LogicaNegocio
 
         public Rol Actualizar(Rol rol)
         {
-            return DatoRol.Actualizar(rol);
+            return  DatoRol.Actualizar(rol);
         }
 
         public bool Eliminar(long id)
         {
+            if (DatoRol.RolConUsuario(id) > 0)
+            {
+                return false;
+            }
             return DatoRol.Eliminar(id);
         }
         public Rol Obtener(long id)

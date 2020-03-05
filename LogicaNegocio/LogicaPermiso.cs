@@ -20,6 +20,10 @@ namespace LogicaNegocio
             return datoPermiso.Denegar(rol, opcion);
         }
 
+        public bool Permitir(long rol, long opcion)
+        {
+            return datoPermiso.Permitir(rol, opcion);
+        }
 
     }
 }

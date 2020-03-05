@@ -108,6 +108,7 @@ namespace Dato
                             DatoModulos = new DatoModulos();
                             rol.Id = Convert.ToInt32(dr["id"]);
                             rol.Nombre = dr["Nombre"].ToString();
+                            rol.Descripcion = dr["Descripcion"].ToString();
                             rol.Estado = (RolEstado)Convert.ToInt32(dr["estado"]);
                             rol.ListaModulos = DatoModulos.BuscarModuloPorRol(rol.Id);
                            
@@ -132,6 +133,40 @@ namespace Dato
             }
         }
 
+        public int RolConUsuario(long id)
+        {
+            
+            try
+            {
+                Sql = "select count(*) as numeroUsuario from Usuario where idRol=@rol;";
+                if (conectar(Sql))
+                {
+                    cmd.Parameters.AddWithValue("@rol", id);
+
+                    using (var dr = cmd.ExecuteReader())
+                    {
+                        dr.Read();
+                        if (dr.HasRows)
+                             return Convert.ToInt32((dr["resultado"]));
+
+                    }
+
+
+                    return -1;
+                }
+                return -1;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("error mensaje " + e.Message);
+                return -1;
+
+            }
+            finally
+            {
+                desConectar();
+            }
+        }
 
 
         public bool Eliminar(long id)

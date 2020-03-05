@@ -1,6 +1,7 @@
 ﻿@model List<Entidades.Permiso>
 @{
     ViewData["Title"] = "Permiso";
+        Layout = "_layoutDinamico";
 }
 
 <h1>Permiso</h1>
@@ -42,10 +43,11 @@
                 }
                 else
                 {
-                    <td style="width:200px;">
-                        <a class="badge badge-primary" title="Denegar Permiso" href="~/Rol/Actualizar/@u.Rol.Id">Permitir</a>
-                        @*<div class="badge badge-primary">@Html.ActionLink("Permitir", "Permitir", new { id = u.Rol.Id, opcion=u.Opcion.Id  }) </div>*@
-                    </td>
+            <td style="width:200px;">
+                <div class="badge badge-primary">@Html.ActionLink("Permitir", "Permitir", new { rol = u.Rol.Id, opcion = u.Opcion.Id }) </div>
+                
+                @*<div class="badge badge-primary">@Html.ActionLink("Permitir", "Permitir", new { id = u.Rol.Id, opcion=u.Opcion.Id  }) </div>*@
+            </td>
 
                 }
 
