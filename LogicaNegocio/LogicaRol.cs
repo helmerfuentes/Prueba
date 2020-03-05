@@ -38,6 +38,8 @@ namespace LogicaNegocio
         {
             return DatoRol.BuscarPermiso(rol,Convert.ToInt32(permiso));
         }
+
+       
     }
 
     public enum EnumRolesPermiso

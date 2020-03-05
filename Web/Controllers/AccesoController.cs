@@ -48,7 +48,7 @@ namespace Web.Controllers
         public IActionResult Salir()
         {
             HttpContext.Session.Clear();
-            return View();
+            return RedirectToAction("Login","Home");
         }
 
 

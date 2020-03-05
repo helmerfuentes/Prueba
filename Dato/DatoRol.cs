@@ -43,6 +43,10 @@ namespace Dato
 
         }
 
+       
+
+        
+
         public bool BuscarPermiso(string rol, int permiso)
         {
             try

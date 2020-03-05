@@ -1,0 +1,59 @@
+﻿@model List<Entidades.Permiso>
+@{
+    ViewData["Title"] = "Permiso";
+}
+
+<h1>Permiso</h1>
+
+
+<h1>Actualizar Permmisos por Rol</h1>
+
+
+<a href="~/Rol/Registrar">Nuevo Registro</a>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Modulo</th>
+            <th scope="col">Opcion</th>
+            <th scope="col">Descripcion</th>
+            <th scope="col">Permiso</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @{ int i = 1;}
+        @foreach (var u in Model)
+        {
+            <tr>
+                <th scope="row">@u.Rol.Id</th>
+                <td>@u.Modulo </td>
+                <td>@u.Opcion.Nombre</td>
+                <td>@u.Opcion.Descripcion</td>
+
+                @if (u.Permitido == Entidades.EnumPermiso.Permitido)
+                {
+                    <td style="width:200px;">
+                        @*<a class="badge badge-danger" title="Denegar Permiso" href="~/Rol/Denegar/@u.Rol.Id">Denegar</a>*@
+                        <div class="badge badge-danger">@Html.ActionLink("Denegar", "Denegar", new { rol = u.Rol.Id, opcion = u.Opcion.Id }) </div>
+
+                    </td>
+                }
+                else
+                {
+                    <td style="width:200px;">
+                        <a class="badge badge-primary" title="Denegar Permiso" href="~/Rol/Actualizar/@u.Rol.Id">Permitir</a>
+                        @*<div class="badge badge-primary">@Html.ActionLink("Permitir", "Permitir", new { id = u.Rol.Id, opcion=u.Opcion.Id  }) </div>*@
+                    </td>
+
+                }
+
+
+
+
+
+            </tr>
+        }
+    </tbody>
+</table>

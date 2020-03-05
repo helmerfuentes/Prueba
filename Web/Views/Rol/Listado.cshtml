@@ -1,6 +1,42 @@
-﻿@{
+﻿@model List<Entidades.Rol>
+@{
     ViewData["Title"] = "Rol";
     Layout = "_LayoutDinamico";
 }
 
-    <h1>Listado Roles</h1>
+
+<h2>Roles</h2>
+
+<a href="~/Rol/Registrar">Nuevo Registro</a>
+
+<table class="table table-striped" >
+    <thead>
+        <tr>
+
+            <th scope="col">Rol</th>
+            <th scope="col">Descripción</th>
+            <th scope="col">Estado</th>
+            <th scope="col"></th>
+        </tr>
+    </thead>
+
+    <tbody>
+     
+        @foreach (var u in Model)
+        {
+        <tr>
+            
+            <td scope="row">@u.Nombre </td>
+            <td>@u.Descripcion</td>
+            <td>@u.Estado</td>
+
+            <td style="width:200px;">
+                <a class="badge badge-dark" title="Editar Permiso" href="~/Rol/Permiso/@u.Id">Editar Permisos</a>
+                <a class="badge badge-info" title="Editar Rol" href="~/Rol/Actualizar/@u.Id">Editar Rol</a>
+                <a class="badge badge-danger" title="Eliminar Rol" onclick="return confirm('¿Esta seguro?');" href="~/default/eliminar/@u.Id">Eliminar Rol</a>
+
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>
