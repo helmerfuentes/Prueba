@@ -25,6 +25,7 @@ namespace Web.Controllers
             if (usuario!= null)
             {
                 HttpContext.Session.SetString("User", usuario.Rol.Nombre);
+               
                 return RedirectToAction("Index","Home");       
             }
             ViewBag.Error = "Usuario o contraseña invalida";

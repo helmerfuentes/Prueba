@@ -25,6 +25,10 @@ namespace Web
         {
             services.AddSession();
             services.AddDistributedMemoryCache();
+            services.AddSession(so =>
+            {
+                so.IdleTimeout = TimeSpan.FromSeconds(60);
+            });
             services.AddMvc();
             services.AddControllersWithViews();
         }

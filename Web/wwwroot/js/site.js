@@ -18,6 +18,12 @@ require([
         zoom: 6
     });
 
+        //Se diseña el contenido que se mostrara en la ventana
+
+        var popupTrailheads = {
+            "title": "{DPTO_CNMBRE}",
+            "content": "<b>Año:</b> {DPTO_NANO_CREACION}<br><b>Codigo:</b> {DPTO_CCDGO}<br><b>Area Oficial:</b> {DPTO_NAREA} ft"
+        }
         var nomColLabel = {
             symbol: {
                 type: "text",
@@ -39,6 +45,7 @@ require([
     var trailheadsLayer = new FeatureLayer({
         url: "https://ags.esri.co/server/rest/services/DA_DANE/departamento_mgn2016/MapServer",
         outFields: ["*"],
+        popupTemplate: popupTrailheads ,
         opacity: .3,
         renderer: {
             type: "simple",
