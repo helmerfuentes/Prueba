@@ -61,9 +61,46 @@ namespace Dato
 
         }
 
-        public List<Usuario> Listar()
+        public List<Usuario> Listar(int posicion)
         {
-            return null;
+            List<Usuario> Users = null;
+            try
+            {
+                Sql = "SELECT * FROM Usuario ORDER BY id OFFSET @posicion ROWS FETCH NEXT 3 ROWS ONLY;";
+                if (conectar(Sql))
+                {
+                    cmd.Parameters.AddWithValue("@posicion", posicion);
+
+                    using (var dr = cmd.ExecuteReader())
+                    {
+                        Users = new List<Usuario>();
+
+                        while (dr.Read())
+                        {
+                            var usuario = new Usuario
+                            {
+                                Nombre = dr["nombre"].ToString(),
+                                Apellido = dr["apellido"].ToString(),
+                                Estado = (enumUsuarios)Convert.ToInt32(dr["estado"])
+
+                            };
+                            Users.Add(usuario);
+                        }
+
+                        }
+                }
+                return Users;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("error mensaje " + e.Message);
+                return null;
+
+            }
+            finally
+            {
+                desConectar();
+            }
         }
 
 

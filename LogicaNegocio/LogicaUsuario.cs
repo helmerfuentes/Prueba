@@ -13,7 +13,7 @@ namespace LogicaNegocio
 
         public List<Usuario> Listar()
         {
-            return DatoUsuario.Listar();
+            return DatoUsuario.Listar(1);
         }
 
         public Usuario Ingresar(string user, string clave)

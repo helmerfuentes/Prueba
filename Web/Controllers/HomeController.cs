@@ -23,9 +23,9 @@ namespace Web.Controllers
 
         public IActionResult Index()
         {
-            if (HttpContext.Session.GetString("User") == null)
-                return RedirectToAction("Login");
-            else
+            //if (HttpContext.Session.GetString("User") == null)
+            //    return RedirectToAction("Login");
+            //else
                 return View();
         }
 

@@ -31,6 +31,8 @@ namespace Entidades
         [Display(Name = "First Name:")]
         public string Apellido { get; set; }
 
+        public enumUsuarios Estado;
+
         public Rol Rol { get; set; }
 
         public Usuario()

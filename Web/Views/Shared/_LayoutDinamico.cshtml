@@ -7,8 +7,9 @@
     <title>@ViewData["Title"] - Devolutions</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" type="text/css" href="https://ajax.googleapis.com/ajax/libs/dojo/1.10.4/dijit/themes/claro/claro.css">
     <link rel="stylesheet" href="https://js.arcgis.com/4.14/esri/themes/light/main.css">
-    <link rel="stylesheet" href="~/css/Style.css"/>
+    <link rel="stylesheet" href="~/css/Style.css" />
 </head>
 <body>
     <header>
@@ -29,7 +30,7 @@
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Acceso" asp-action="Salir">Salir</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Rol" asp-action="Index" >Rol</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Rol" asp-action="Index">Rol</a>
                             </li>
                         }
 
@@ -62,6 +63,7 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://js.arcgis.com/4.14/"></script>
+
     <script src="~/js/site.js" asp-append-version="true"></script>
     @RenderSection("Scripts", required: false)
 </body>
