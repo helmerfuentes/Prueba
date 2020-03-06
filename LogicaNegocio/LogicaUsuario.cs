@@ -11,9 +11,15 @@ namespace LogicaNegocio
 
         private readonly DatoUsuario DatoUsuario = new DatoUsuario();
 
-        public List<Usuario> Listar()
+        public List<Usuario> Listar(int pag)
         {
-            return DatoUsuario.Listar(1);
+            //si la pagina es 0, empezara desde el registro 0
+            return DatoUsuario.Listar(pag*10);
+        }
+
+        public int TotalUsuarios()
+        {
+            return DatoUsuario.TotalUsuarios();
         }
 
         public Usuario Ingresar(string user, string clave)

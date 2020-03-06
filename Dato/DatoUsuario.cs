@@ -61,12 +61,45 @@ namespace Dato
 
         }
 
+        public int TotalUsuarios()
+        {
+            try
+            {
+                Sql = @"SELECT    COUNT(*)  as total FROM usuario ";
+                if (conectar(Sql))
+                {
+                 
+                    using (var dr = cmd.ExecuteReader())
+                    {
+                        dr.Read();
+                        if (dr.HasRows)
+                            return Convert.ToInt32((dr["total"]));
+
+                    }
+
+
+
+                }
+                return -1;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("error mensaje " + e.Message);
+                return -1;
+
+            }
+            finally
+            {
+                desConectar();
+            }
+        }
+
         public List<Usuario> Listar(int posicion)
         {
             List<Usuario> Users = null;
             try
             {
-                Sql = "SELECT * FROM Usuario ORDER BY id OFFSET @posicion ROWS FETCH NEXT 3 ROWS ONLY;";
+                Sql = "SELECT * FROM Usuario ORDER BY id OFFSET @posicion ROWS FETCH NEXT 10 ROWS ONLY;";
                 if (conectar(Sql))
                 {
                     cmd.Parameters.AddWithValue("@posicion", posicion);

@@ -222,4 +222,11 @@ require([
             content: "<div  id='tablaVeredas'>Cargando...</div>",
             style: "width: 50%; position:center;",
         });
+
+        userDialog = new Dialog({
+            title: "Listado de Usuarios",
+            content: "<div  id='tablaUsuarios'>Cargando...</div>",
+            style: "width: 50%; position:center;",
+        });
+
 });

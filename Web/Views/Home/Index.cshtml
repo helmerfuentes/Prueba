@@ -4,7 +4,9 @@
 }
 <h1>Departamentos de Colombia</h1>
 
-<button id="infoDiv" onclick="recargarTabla(0, 10, 1)" class="esri-widget">Ver usuarios</button>
+
+
+<button id="infoDiv" onclick="CargarUsuario(0)" class="esri-widget">Ver usuarios</button>
 <button id="verVeredasBtn" onclick="verificarVer()" class="esri-widget">Ver veredas</button>
 
 <div id="viewDiv"></div>
@@ -20,10 +22,66 @@
         verDialog.show();
     }
 
+    function CargarUsuario(page) {
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("CargarUsuarios", "Home")',
+            data: {
+                pagina: page
+                
+            },
+            success: function (result) {
+                console.log(result);
+                 recargarUsuarios(result,page);
+            },
+            error: function (error) {
+                alert(error);
+            }
+        });
+    }
+    function recargarUsuarios(usuarios, page) {
+         if (usuarios.length > 0) {
+
+            var tablaUsuarios = `
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Apellido</th>
+                    <th scope="col">Estado</th>
+                        
+                </tr>
+                </thead>
+                <tbody>
+                    `;
+            var d = "";
+            for (var i = 0; i < (usuarios.length < 10 ? usuarios.length : 10); i++) {
+                d += `
+                <tr>
+                    <td>${usuarios[i].nombre}</td>
+                    <td>${usuarios[i].apellido}</td>
+                    <td>${usuarios[i].estado===0?"Inactivo":"Activo"}</td>
+                </tr>`
+            }
+            tablaUsuarios += d;
+            tablaUsuarios += `
+                </tbody>
+            </table>
+            <ul class="pagination justify-content-center">
+            <li class="page-item ${page === 0 ? "disabled" : ""}"><a class="page-link btn" onclick="CargarUsuario(${page-1})">Anterior</a></li>
+            <<li class="page-item ${page === @ViewData["TotalUsuario"]? "disabled": ""}"><a class="page-link btn" onclick="CargarUsuario(${page+1})">Siguiente</a></li>
+            </ul>
+            
+            `;
+            $("#tablaUsuarios").html(tablaUsuarios);
+        }
+        userDialog.show();
+    }
+
     function ListarVeredas(veredas, pagina) {
         if (pagina > 0) {
               var tabla = `
-        
+
         <table class="table table-striped">
             <thead>
                 <tr>
