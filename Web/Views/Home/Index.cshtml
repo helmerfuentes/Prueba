@@ -103,7 +103,7 @@
                         <th>${veredas[i].attributes.NOMBRE_VER}</th>
                         <th>${veredas[i].attributes.NOM_DEP}</th>
                         <th>${veredas[i].attributes.NOMB_MPIO}</th>
-                        <th><a class="btn" onclick="global.verVereda('${veredas[i].attributes.NOMBRE_VER}')">🔍</a></th>
+                        <th><a class="btn btn-primary" title="Presiona Click" onclick="global.verVereda('${veredas[i].attributes.NOMBRE_VER}')">🔍</a></th>
                     </tr>`
             }
             tabla += d;
@@ -111,7 +111,7 @@
             tabla += `
             </tbody>
             </table>
-            <ul class="pagination justify-content-center">
+            <ul class="pagination justify-content-centerx|">
             <li class="page-item ${pagina === 1 ? "disabled" : ""}">
                 <a class="btn btn-primary btn-lg active" onclick="ListarVeredas(ListadoVeredas.slice(${(pagina - 2) * 10}, ${(pagina - 2) * 10 + 10}), ${pagina - 1})">Anterior</a>
             </li>

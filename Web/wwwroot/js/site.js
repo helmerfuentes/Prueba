@@ -1,17 +1,28 @@
 ﻿var ListadoVeredas;
+var global = {};
+var mapView;
+
+
 
 require([
     "esri/Map",
     "esri/views/MapView",
     "esri/layers/FeatureLayer",
+    "esri/layers/GraphicsLayer",
     "dijit/Dialog",
-    "dojo/domReady!",
-    "dojo/dom"
+    "esri/widgets/Sketch",
+    "esri/widgets/Sketch/SketchViewModel",
+    "dojo/domReady!"
     
-], function (Map, MapView, FeatureLayer, Dialog,dom) {
+    
+], function (Map, MapView, FeatureLayer, GraphicsLayer, Dialog, Sketch, SketchViewModel ) {
+       
+         const graphicsLayer = new GraphicsLayer();
 
    var map = new Map({
-        basemap: "national-geographic"
+       basemap: "national-geographic",
+       layers: [graphicsLayer]
+      
     });
 
     var view = new MapView({
@@ -21,13 +32,45 @@ require([
         center: [-72.4782449846235, 4.887407292289377], // longitude, latitude Colombia
         zoom: 6
     });
-        
-        //Se diseña el contenido que se mostrara en la ventana
+
+
+
+
+
+        var sketchVM = new SketchViewModel({
+            layer: graphicsLayer,
+            view: mapView,  
+            polygonSymbol: {
+                type: "simple-fill",
+                style: "none",
+                outline: {
+                    color: "black",
+                    width: 1
+                }
+            }
+        });
+
+        sketchVM.on(["create"], function (event) {
+            console.log(event);
+        });
+
+        ////tolbar de dibujo de puntos y pol
+        let sketch = new Sketch({
+            layer: graphicsLayer,
+            viewModel: sketchVM,
+            view: view,
+           
+            creationMode: "update"
+        });
+        ////Se diseña el contenido que se mostrara en la ventana
+        view.ui.add(sketch, "top-right");
+
 
         var popuDepartamentos = {
             "title": "{DPTO_CNMBRE}",
             "content": "<b>Año:</b> {DPTO_NANO_CREACION}<br><b>Codigo:</b> {DPTO_CCDGO}<br><b>Area Oficial:</b> {DPTO_NAREA} ft"
         }
+
         var nomColLabel = {
             symbol: {
                 type: "text",
@@ -199,13 +242,13 @@ require([
                     style: "solid",
                     outline: {
                         color: "black",
-                        width: 1
+                        width: 3
                     }
                 }
             },
             popupTemplate: PopupVereda
         });
-      
+        map.add(FeatureVereda);
         //obtengo lista veredas del FeatureLeayer
         FeatureVereda.queryFeatures({
             where: "1=1",
@@ -228,5 +271,37 @@ require([
             content: "<div  id='tablaUsuarios'>Cargando...</div>",
             style: "width: 50%; position:center;",
         });
+
+        global.verVereda = function (nomVer) {
+            console.log(nomVer);
+            FeatureVereda.definitionExpression = `NOMBRE_VER='${nomVer.toUpperCase()}'`;
+            verDialog.hide();
+            FeatureVereda.queryFeatures({
+                where: `NOMBRE_VER='${nomVer.toUpperCase()}'`,
+                returnGeometry: true,
+                outFields: ["*"]
+            }).then(function (results) {
+                console.log(results);
+                view.popup.title = results.features[0].attributes.NOMBRE_VER;
+                view.popup.open({
+                    location: {
+                        latitude: results.features[0].geometry.centroid.latitude,
+                        longitude: results.features[0].geometry.centroid.longitude
+                    },
+                    title: "Información de " + results.features[0].attributes.NOMBRE_VER,
+                    content: `
+                            OBJECTID: ${results.features[0].attributes.OBJECTID} <br> 
+                            Código DANE departamento: ${results.features[0].attributes.DPTO_CCDGO} <br> 
+                            Año de creación del departamento: ${results.features[0].attributes.DPTO_NANO_CREACION} <br> 
+                            Nombre del departamento: ${results.features[0].attributes.DPTO_CNMBRE} <br> 
+                            Acto administrativo de creación del departamento: ${results.features[0].attributes.DPTO_CACTO_ADMNSTRTVO} <br> 
+                            Área oficial del departamento en Km2: ${results.features[0].attributes.DPTO_NAREA} <br> 
+                            Año vigencia de información municipal (Fuente DANE): ${results.features[0].attributes.DPTO_NANO} <br> 
+                            `
+                });
+                view.extent = results.features[0].geometry.extent.expand(1.5);
+                FeatureVereda.opacity = .75;
+            });
+        };
 
 });
