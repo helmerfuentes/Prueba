@@ -21,12 +21,13 @@ namespace Web.Controllers
             return View();
         }
 
-        //[PermisoAttribute(Permiso = EnumRolesPermiso.Registrar_Rol)]
+        [PermisoAttribute(Permiso = EnumRolesPermiso.Registrar_Rol)]
         public ActionResult Registrar()
         {
             return View();
         }
 
+        [ValidateSession]
         [HttpPost]
         public IActionResult Registrar(Rol rol)
         {
@@ -44,18 +45,20 @@ namespace Web.Controllers
         }
 
         //[PermisoAttribute(Permiso = EnumRolesPermiso.Registrar_Rol)]
+        [ValidateSession]
         public ActionResult Listado()
         {
             return View(LogicaRol.Listar());
         }
 
-        
+        [ValidateSession]
         public ActionResult Actualizar(long id)
         {
          
             return View(LogicaRol.Obtener(id));
         }
 
+        [ValidateSession]
         [HttpPost]
         public ActionResult Actualizar(Rol rol)
         {
@@ -69,11 +72,14 @@ namespace Web.Controllers
 
             return RedirectToAction("Listado");
         }
+
+        [ValidateSession]
         public ActionResult Permiso(long id)
         {
             return View(permisos.ObtenerListaPermisos(id));
         }
-       
+
+        [ValidateSession]
         public ActionResult Eliminar(long id)
         {
             if (LogicaRol.Eliminar(id))
@@ -88,6 +94,8 @@ namespace Web.Controllers
             return RedirectToAction("Listado");
         }
 
+        [ValidateSession]
+
         public ActionResult Denegar(long rol, long opcion)
         {
             if (permisos.Denegar(rol, opcion))
@@ -100,6 +108,8 @@ namespace Web.Controllers
             }
             return RedirectToAction("Permiso", new { id = rol });
         }
+
+        [ValidateSession]
         public ActionResult Permitir(long rol, long opcion)
         {
             if (permisos.Permitir(rol, opcion))

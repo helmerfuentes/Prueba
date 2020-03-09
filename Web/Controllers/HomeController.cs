@@ -24,6 +24,7 @@ namespace Web.Controllers
             _logger = logger;
         }
 
+        [ValidateSession]
         public IActionResult Index()
         {
             //if (HttpContext.Session.GetString("User") == null)
@@ -34,6 +35,7 @@ namespace Web.Controllers
                 return View();
         }
 
+        [ValidateSession]
         [HttpPost]
         public List<Usuario> CargarUsuarios(int pagina)
         {
@@ -46,15 +48,15 @@ namespace Web.Controllers
             return View();
         }
 
-        
+
 
         //[PermisoAttribute(Permiso = EnumRolesPermiso.Registrar_Rol)]
-
+        [ValidateSession]
         public IActionResult Registrar()
         {
             return View();
         }
-
+        [ValidateSession]
         public IActionResult Privacy()
         {
             return View();

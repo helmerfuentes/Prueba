@@ -12,7 +12,7 @@ require([
     "esri/widgets/Sketch",
     "esri/widgets/Sketch/SketchViewModel",
     "dojo/domReady!"
-
+    
 
 ], function (Map, MapView, FeatureLayer, GraphicsLayer, Dialog, Sketch, SketchViewModel) {
 
@@ -27,9 +27,18 @@ require([
     var view = new MapView({
         container: "viewDiv",
         map: map,
-
         center: [-72.4782449846235, 4.887407292289377], // longitude, latitude Colombia
-        zoom: 6
+        zoom: 6,
+        popup: {
+            autoOpenEnabled: false,
+            dockEnabled: true,
+            dockOptions: {
+                // dock popup at bottom-right side of view
+                buttonEnabled: false,
+                breakpoint: false,
+                position: "bottom-right"
+            }
+        }
     });
 
 
@@ -48,23 +57,49 @@ require([
             }
         }
     });
-        var _DepartamentoFeature = new FeatureLayer({
-            url: "https://ags.esri.co/server/rest/services/DA_DANE/departamento_mgn2016/MapServer",
-            outFields: ["*"],
-            opacity: 0,
-            renderer: {
-                type: "simple",
-                symbol: {
-                    type: "simple-fill",
-                    color: "blue",
-                    style: "solid",
-                    outline: {
-                        color: "black",
-                        width: 1
-                    }
-                }
-            }
-        });
+
+        function generarListado(departamentos) {
+            console.log(departamentos);
+        //   var tabla = `
+
+        //<table class="table table-striped">
+        //    <thead>
+        //        <tr>
+        //            <th scope="col"></th>
+        //            <th scope="col">Código</th>
+        //            <th scope="col">Nombre</th>
+        //            <th scope="col">Departamento</th>
+        //            <th scope="col">Municipio</th>
+        //            <th scope="col">Detalles</th>
+        //        </tr>
+        //    </thead>
+        //    <tbody>`;
+        //   var d = "";
+        //   for (var i = 0; i < departamentos.length ; i++) {
+        //       d += `
+        //            <tr>
+                    
+        //                <th>${departamentos[i].attributes.DPTO_CCDGO}</th>
+        //               </tr>`
+        //   }
+        //   tabla += d;
+        //   tabla += `
+        //    </tbody>
+        //    </table>
+        //    <ul class="pagination justify-content-centerx|">
+        //    <li class="page-item ${pagina === 1 ? "disabled" : ""}">
+        //        <a class="btn btn-primary btn-lg active" onclick="ListarVeredas(ListadoVeredas.slice(${(pagina - 2) * 10}, ${(pagina - 2) * 10 + 10}), ${pagina - 1})">Anterior</a>
+        //    </li>
+        //    <li class="page-item ${Math.ceil(ListadoVeredas.length / 10) === pagina ? "disabled" : ""}">
+        //        <a class="btn btn-primary btn-lg active" onclick="ListarVeredas(ListadoVeredas.slice(${pagina * 10}, ${pagina * 10 + 10}), ${pagina + 1})">Siguiente</a>
+        //    </li>
+        //    </ul>
+        //`;
+        //   $("#tablaVeredas").html(tabla);
+        //   userDialog.show();
+       }
+    
+     
 
     sketchVM.on(["create"], function (event) {
         if (event.state === "complete") {
@@ -84,8 +119,13 @@ require([
                 FatureDepartamento.queryFeatures(query)
                     .then(function (response) {
                         view.when(function () {
-
                             console.log(response.features);
+                          
+                            view.popup.open({
+                                
+                                features: response.features,
+                                featureMenuOpen: true
+                            });
                           
                             stateMap = true;
                             view.extent = response.features[0].geometry.extent;
@@ -158,7 +198,7 @@ require([
     };
     //carga departamentos
     var FatureDepartamento = new FeatureLayer({
-        url: "https://ags.esri.co/server/rest/services/DA_DANE/departamento_mgn2016/MapServer",
+        url: "http://dhime.ideam.gov.co/server/rest/services/Cartografia_Basica/Departamentos/MapServer/0",
         outFields: ["*"],
         popupTemplate: popuDepartamentos,
         opacity: .2,
@@ -310,7 +350,7 @@ require([
     }
     //cargar veredas
     var FeatureVereda = new FeatureLayer({
-        url: "https://ags.esri.co/server/rest/services/DA_DatosAbiertos/VeredasColombia/MapServer/0",
+        url: "http://dhime.ideam.gov.co/server/rest/services/Cartografia_Basica/Municipios/MapServer/0",
         outFields: ["*"],
         opacity: 0,
         renderer: {
@@ -327,6 +367,26 @@ require([
         },
         popupTemplate: PopupVereda
     });
+
+        var FeaturePredio= new FeatureLayer({
+            url: "https://calidadevolutionscsas.com/arcgisserver/rest/services/PruebaDesarrolladores/PruebaPrediosServidumbre/FeatureServer/1",
+            outFields: ["*"],
+            opacity: 0,
+            renderer: {
+                type: "simple",
+                symbol: {
+                    type: "simple-fill",
+                    color: "cyan",
+                    style: "solid",
+                    outline: {
+                        color: "black",
+                        width: 1
+                    }
+                }
+            },
+            popupTemplate: PopupVereda
+        });
+
     map.add(FeatureVereda);
     //obtengo lista veredas del FeatureLeayer
     FeatureVereda.queryFeatures({

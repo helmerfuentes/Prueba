@@ -33,7 +33,7 @@ namespace Web.Controllers
         }
 
         [HttpPost]
-        
+        [ValidateSession]
         public  IActionResult Registrar(Usuario user)
         {
             var OneUser = logica.Agregar(user);
@@ -46,7 +46,7 @@ namespace Web.Controllers
             return View();
 
         }
-
+        [ValidateSession]
         public IActionResult Salir()
         {
             HttpContext.Session.Clear();
