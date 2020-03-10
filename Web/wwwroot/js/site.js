@@ -30,12 +30,12 @@ require([
         center: [-72.4782449846235, 4.887407292289377], // longitude, latitude Colombia
         zoom: 6,
         popup: {
-            autoOpenEnabled: false,
+            autoOpenEnabled: true,
             dockEnabled: true,
             dockOptions: {
                 // dock popup at bottom-right side of view
-                buttonEnabled: false,
-                breakpoint: false,
+                buttonEnabled: true,
+                breakpoint: true,
                 position: "bottom-right"
             }
         }
@@ -58,48 +58,7 @@ require([
         }
     });
 
-        function generarListado(departamentos) {
-            console.log(departamentos);
-        //   var tabla = `
-
-        //<table class="table table-striped">
-        //    <thead>
-        //        <tr>
-        //            <th scope="col"></th>
-        //            <th scope="col">Código</th>
-        //            <th scope="col">Nombre</th>
-        //            <th scope="col">Departamento</th>
-        //            <th scope="col">Municipio</th>
-        //            <th scope="col">Detalles</th>
-        //        </tr>
-        //    </thead>
-        //    <tbody>`;
-        //   var d = "";
-        //   for (var i = 0; i < departamentos.length ; i++) {
-        //       d += `
-        //            <tr>
-                    
-        //                <th>${departamentos[i].attributes.DPTO_CCDGO}</th>
-        //               </tr>`
-        //   }
-        //   tabla += d;
-        //   tabla += `
-        //    </tbody>
-        //    </table>
-        //    <ul class="pagination justify-content-centerx|">
-        //    <li class="page-item ${pagina === 1 ? "disabled" : ""}">
-        //        <a class="btn btn-primary btn-lg active" onclick="ListarVeredas(ListadoVeredas.slice(${(pagina - 2) * 10}, ${(pagina - 2) * 10 + 10}), ${pagina - 1})">Anterior</a>
-        //    </li>
-        //    <li class="page-item ${Math.ceil(ListadoVeredas.length / 10) === pagina ? "disabled" : ""}">
-        //        <a class="btn btn-primary btn-lg active" onclick="ListarVeredas(ListadoVeredas.slice(${pagina * 10}, ${pagina * 10 + 10}), ${pagina + 1})">Siguiente</a>
-        //    </li>
-        //    </ul>
-        //`;
-        //   $("#tablaVeredas").html(tabla);
-        //   userDialog.show();
-       }
-    
-     
+   
 
     sketchVM.on(["create"], function (event) {
         if (event.state === "complete") {
@@ -119,10 +78,11 @@ require([
                 FatureDepartamento.queryFeatures(query)
                     .then(function (response) {
                         view.when(function () {
-                            console.log(response.features);
-                          
                             view.popup.open({
-                                
+                                location: {
+                                    latitude: response.features[0].geometry.centroid.latitude,
+                                    longitude: response.features[0].geometry.centroid.longitude
+                                },
                                 features: response.features,
                                 featureMenuOpen: true
                             });
@@ -130,23 +90,7 @@ require([
                             stateMap = true;
                             view.extent = response.features[0].geometry.extent;
                             view.popup.title = response.features[0].attributes.DPTO_CNMBRE;
-                            view.popup.open({
-                                location: {
-                                    latitude: response.features[0].geometry.centroid.latitude,
-                                    longitude: response.features[0].geometry.centroid.longitude
-                                },
-                                title: "Información de " + response.features[0].attributes.DPTO_CNMBRE,
-                                content: `
-                                            OBJECTID: ${response.features[0].attributes.OBJECTID} <br> 
-                                            Código DANE departamento: ${response.features[0].attributes.DPTO_CCDGO} <br> 
-                                            Año de creación del departamento: ${response.features[0].attributes.DPTO_NANO_CREACION} <br> 
-                                            Nombre del departamento: ${response.features[0].attributes.DPTO_CNMBRE} <br> 
-                                            Acto administrativo de creación del departamento: ${response.features[0].attributes.DPTO_CACTO_ADMNSTRTVO} <br> 
-                                            Área oficial del departamento en Km2: ${response.features[0].attributes.DPTO_NAREA} <br> 
-                                            Año vigencia de información municipal (Fuente DANE): ${response.features[0].attributes.DPTO_NANO} <br> 
-                                          `
-                            });
-                            FeatureVereda.definitionExpression = `COD_DPTO=${response.features[0].attributes.DPTO_CCDGO}`;
+                           FeatureVereda.definitionExpression = `COD_DPTO=${response.features[0].attributes.DPTO_CCDGO}`;
                             FeatureVereda.opacity = .75;
                             FeatureVereda.renderer = renderizado;
                             view.goTo(response.features[0].geometry.extent.expand(1));
@@ -173,10 +117,16 @@ require([
     view.ui.add(sketch, "top-right");
 
 
-    var popuDepartamentos = {
-        "title": "{DPTO_CNMBRE}",
-        "content": "<b>Año:</b> {DPTO_NANO_CREACION}<br><b>Codigo:</b> {DPTO_CCDGO}<br><b>Area Oficial:</b> {DPTO_NAREA} ft"
-    }
+        var popuDepartamentos = {
+            "title": "Información de {DPTO_CNMBRE}",
+             "content": 
+                 "Código DANE departamento: {DPTO_CCDGO} <br>"+
+                 "Año de creación del departamento: {DPTO_NANO_CREACION} <br> "+
+                  "Nombre del departamento: {DPTO_CNMBRE} <br>"+ 
+                   "Acto administrativo de creación del departamento: {DPTO_CACTO_ADMNSTRTVO} <br>"+ 
+                   "Área oficial del departamento en Km2: {DPTO_NAREA} <br>"+ 
+                    "Año vigencia de información municipal (Fuente DANE): {DPTO_NANO} <br>" 
+         }
 
     var nomColLabel = {
         symbol: {
@@ -198,7 +148,7 @@ require([
     };
     //carga departamentos
     var FatureDepartamento = new FeatureLayer({
-        url: "http://dhime.ideam.gov.co/server/rest/services/Cartografia_Basica/Departamentos/MapServer/0",
+        url: "https://ags.esri.co/server/rest/services/DA_DANE/departamento_mgn2016/MapServer",
         outFields: ["*"],
         popupTemplate: popuDepartamentos,
         opacity: .2,
@@ -350,7 +300,7 @@ require([
     }
     //cargar veredas
     var FeatureVereda = new FeatureLayer({
-        url: "http://dhime.ideam.gov.co/server/rest/services/Cartografia_Basica/Municipios/MapServer/0",
+        url: "https://ags.esri.co/server/rest/services/DA_DatosAbiertos/VeredasColombia/MapServer/0",
         outFields: ["*"],
         opacity: 0,
         renderer: {
@@ -427,6 +377,7 @@ require([
                     latitude: results.features[0].geometry.centroid.latitude,
                     longitude: results.features[0].geometry.centroid.longitude
                 },
+                
                 title: "Información de " + results.features[0].attributes.NOMBRE_VER,
                 content: `
                             OBJECTID: ${results.features[0].attributes.OBJECTID} <br> 
@@ -441,6 +392,9 @@ require([
             view.extent = results.features[0].geometry.extent.expand(1.5);
             FeatureVereda.opacity = .75;
         });
-    };
+        };
+
+        view.ui.add("optionsDiv", "top-right");
+        view.ui.add("botones", "top-left");
 
 });

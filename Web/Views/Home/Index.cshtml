@@ -4,10 +4,22 @@
 }
 <h1>Departamentos de Colombia</h1>
 
+<div id="botones">
 
+    <button id="infoDiv" onclick="CargarUsuario(0)" class="esri-widget">Ver usuarios</button>
+    <button id="verVeredasBtn" onclick="verificarVer()" class="esri-widget">Ver veredas</button>
 
-<button id="infoDiv" onclick="CargarUsuario(0)" class="esri-widget">Ver usuarios</button>
-<button id="verVeredasBtn" onclick="verificarVer()" class="esri-widget">Ver veredas</button>
+</div>
+
+<div id="optionsDiv" class="esri-widget">
+    <p>
+        Select a query type and click a point on the map to view the results.
+    </p>
+    <select id="query-type" class="esri-widget">
+        <option value="basic">Basic Query</option>
+        <option value="distance">Query By Distance</option>
+    </select>
+</div>
 
 <div id="viewDiv"></div>
 
@@ -28,7 +40,7 @@
             url: '@Url.Action("CargarUsuarios", "Home")',
             data: {
                 pagina: page
-                
+
             },
             success: function (result) {
                 console.log(result);
@@ -49,7 +61,7 @@
                     <th scope="col">Nombre</th>
                     <th scope="col">Apellido</th>
                     <th scope="col">Estado</th>
-                        
+
                 </tr>
                 </thead>
                 <tbody>
@@ -71,7 +83,7 @@
             <li class="page-item ${page === 0 ? "disabled" : ""}"><a class="page-link btn" onclick="CargarUsuario(${page-1})">Anterior</a></li>
             <<li class="page-item ${page === @ViewData["TotalUsuario"]? "disabled": ""}"><a class="page-link btn" onclick="CargarUsuario(${page+1})">Siguiente</a></li>
             </ul>
-            
+
             `;
             $("#tablaUsuarios").html(tablaUsuarios);
         }
