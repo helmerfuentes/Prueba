@@ -13,22 +13,22 @@ namespace Entidades
 
         [Required(ErrorMessage = "campo requerido.")]
         [StringLength(20, ErrorMessage = "Maximo 20 caracteres")]
-        [Display(Name = "First Name:")]
+        [Display(Name = "Usuario:")]
         public string usuario { get; set; }
 
         [Required(ErrorMessage = "campo requerido.")]
         [StringLength(20, ErrorMessage = "Maximo 20 caracteres")]
-        [Display(Name = "First Name:")]
+        [Display(Name = "Clave:")]
         public string Clave { get; set;
         }
         [Required(ErrorMessage = "campo requerido.")]
         [StringLength(50, ErrorMessage = "Maximo 50 caracteres.")]
-        [Display(Name = "First Name:")]
+        [Display(Name = "Nombre:")]
         public string Nombre { get; set; }
 
         [Required(ErrorMessage = "campo requerido.")]
         [StringLength(50, ErrorMessage = "Maximo 50 caracteres")]
-        [Display(Name = "First Name:")]
+        [Display(Name = "Apellido:")]
         public string Apellido { get; set; }
 
         public enumUsuarios Estado { get; set; }

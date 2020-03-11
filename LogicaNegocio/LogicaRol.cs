@@ -53,8 +53,12 @@ namespace LogicaNegocio
         Listar_Rol=2,
         Actualizar_Rol=5,
         Eliminar_rol=4,
-            #endregion
+        #endregion
 
+        #region Usuario
+        registrar_usuario=6,
+        listar_Usuario=7
+        #endregion
         //#region Alumnos
         //Alumno_Puede_Crear_Nuevo_Registro = 2,
         //Alumno_Puede_Eliminar_Registro = 3,

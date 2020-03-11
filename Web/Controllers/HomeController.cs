@@ -25,6 +25,7 @@ namespace Web.Controllers
         }
 
         [ValidateSession]
+
         public IActionResult Index()
         {
             //if (HttpContext.Session.GetString("User") == null)
@@ -35,6 +36,7 @@ namespace Web.Controllers
                 return View();
         }
 
+        [PermisoAttribute(Permiso = EnumRolesPermiso.listar_Usuario)]
         [ValidateSession]
         [HttpPost]
         public List<Usuario> CargarUsuarios(int pagina)
@@ -50,7 +52,7 @@ namespace Web.Controllers
 
 
 
-        //[PermisoAttribute(Permiso = EnumRolesPermiso.Registrar_Rol)]
+        [PermisoAttribute(Permiso = EnumRolesPermiso.registrar_usuario)]
         [ValidateSession]
         public IActionResult Registrar()
         {

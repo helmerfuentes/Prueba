@@ -12,6 +12,7 @@ namespace Web.Controllers
 {
     public class RolController : Controller
     {
+        string mensaje="";
         LogicaRol LogicaRol = new LogicaRol();
         LogicaPermiso permisos = new LogicaPermiso();
 
@@ -44,10 +45,11 @@ namespace Web.Controllers
             return View();
         }
 
-        //[PermisoAttribute(Permiso = EnumRolesPermiso.Registrar_Rol)]
+        [PermisoAttribute(Permiso = EnumRolesPermiso.Listar_Rol)]
         [ValidateSession]
         public ActionResult Listado()
         {
+            ViewData["mensaje"] = mensaje;
             return View(LogicaRol.Listar());
         }
 
@@ -84,11 +86,11 @@ namespace Web.Controllers
         {
             if (LogicaRol.Eliminar(id))
             {
-                //redirecciono
+                mensaje = "Rol Eliminado";
             }
             else
             {
-                //mensaje en caso de error
+                mensaje= "hay un usuario con este Rol";
             }
 
             return RedirectToAction("Listado");
